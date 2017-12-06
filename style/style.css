@@ -1,0 +1,19 @@
+body {
+	padding: 5px;
+}
+
+canvas {
+	border: black 1px solid;
+}
+
+.game {
+	display: inline-block;
+}
+.controller {
+	vertical-align: top;
+	display: inline-block;
+}
+
+.controller > * {
+	padding: 5px;
+}

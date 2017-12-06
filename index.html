@@ -3,18 +3,9 @@
 <head>
 	<meta charset="UTF-8">
 	<title>Mouse Test</title>
-	<style>
-		body {
-			
-		}
-		.game {
-			display: inline-block;
-		}
-		.controller {
-			vertical-align: top;
-			display: inline-block;
-		}
-	</style>
+	<link rel="stylesheet" type="text/css" href="style/style.css">
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta.2/css/bootstrap.min.css" integrity="sha384-PsH8R72JQ3SOdhVi3uxftmaW6Vc51MKb0q5P2rRUpPvrszuE4W1povHYgTpBfshb" crossorigin="anonymous">
+
 </head>
 <body onload="draw();">
 	<div class="game">
@@ -29,148 +20,50 @@
 				<option value="map3">Map 3</option>
 				<option value="map4">Map 4</option>
 			</select>
+		<h1>Enemies</h1>
+
+			<div class="enemy1">
+				Enemy 1: 
+				<select name="enemy1" class="hero-picker"></select>
+			</div>
+
+			<div class="enemy2">
+				Enemy 2: 
+				<select name="enemy2" class="hero-picker"></select>
+			</div>
+
+			<div class="enemy3">
+				Enemy 3: 
+				<select name="enemy3" class="hero-picker"></select>
+			</div>
+
+			<div class="enemy4">
+				Enemy 4: 
+				<select name="enemy4" class="hero-picker"></select>
+			</div>
+
 		<h1>Heroes</h1>
 			<div class="hero1">
 				Hero 1: 
-				<select name="hero1">
-					<option value="Alfonse">Alfonse</option>
-				</select>
-				Position:
-				<select name="heroPos" class="hero-position"></select>
+				<select name="hero1" class="hero-picker"></select>
 			</div>
 			<div class="hero2">
 				Hero 2: 
-				<select name="hero1">
-					<option value="Sharena">Sharena</option>
-				</select>
-				Position:
-				<select name="heroPos" class="hero-position"></select>
+				<select name="hero2" class="hero-picker"></select>
 			</div>
 			<div class="hero3">
 				Hero 3: 
-				<select name="hero3">
-					<option value="Anna">Anna</option>
-				</select>
-				Position:
-				<select name="heroPos" class="hero-position"></select>
+				<select name="hero3" class="hero-picker"></select>
 			</div>
 			<div class="hero4">
 				Hero 4: 
-				<select name="hero4">
-					<option value="Fjorm">Fjorm</option>
-				</select>
-				Position:
-				<select name="heroPos" class="hero-position"></select>
+				<select name="hero4" class="hero-picker"></select>
 			</div>
 
-		<h1>Enemies</h1>
+		
 	</div>
-	
 
-	<script type="text/javascript">
-		var canvas = document.getElementById('game');
-		var ctx = canvas.getContext('2d');
-
-		var width = canvas.width;
-		var height = canvas.height;
-
-		var rectSize = 100;
-
-		var mouseY;
-		var mouseX;
-
-		var mouseDown = false;
-
-		var peon = {
-			x: 2,
-			y: 1,
-			clicked: false
-		};
-
-		var heroPositionDropDown = document.getElementsByClassName("hero-position");
-		var options = ['1', '2', '3', '4'];
-		console.log(heroPositionDropDown);
-		for (var i = 0; i < heroPositionDropDown.length; ++i) {
-			dropdown = heroPositionDropDown[i];
-			for (var j = 0; j < options.length; ++j) {
-				var option = options[j];
-			    var el = document.createElement("option");
-			    el.textContent = option;
-			    el.value = option;
-			    dropdown.appendChild(el);
-			}
-		}
-
-		function draw() {
-			ctx.clearRect(0, 0, width, height);
-			drawGrid();
-			drawpeon();
-			handleMouseInteraction();
-
-			requestAnimationFrame(draw);
-		}
-
-		function drawGrid() {
-			for (var i = 0; i < width/100; ++i) {
-				for (var j = 0; j < height/100; ++j) {
-					ctx.strokeRect(i * 100, j * 100, rectSize, rectSize);
-				}
-			}	
-		}
-
-		function drawpeon() {
-			ctx.fillStyle = 'black';
-			ctx.fillRect(peon.x * 100, peon.y * 100, rectSize, rectSize);
-		}
-
-		function handleMouseInteraction() {
-			if (typeof mouseY != 'undefined' && typeof mouseX != 'undefined') {
-				if (mouseDown) {
-					ctx.fillStyle = 'orange';
-				} else {
-					ctx.fillStyle = 'blue';
-				}
-				ctx.fillRect(mouseX * 100, mouseY * 100, rectSize, rectSize);
-			}
-		}
-
-		function mouseMoveHandler(e) {
-			var mousePosX = e.clientX;
-			var mousePosY = e.clientY;
-
-			if ((mousePosX > 0 && mousePosX < canvas.width) &&
-				(mousePosY > 0 && mousePosY < canvas.height)) 
-			{
-				mouseY = mousePosY / 100 | 0;
-				mouseX = mousePosX / 100 | 0;
-
-			}
-
-		}
-
-		function mouseDownHandler(e) {
-			mouseDown = true;
-
-			if (mouseY === peon.y && mouseX === peon.x) {
-				peon.clicked = true;
-			}
-		}
-
-		function mouseUpHandler(e) {
-			mouseDown = false;
-			if (peon.clicked)
-			{
-				peon.clicked = false;
-				peon.x = mouseX;
-				peon.y = mouseY;
-			}
-		}
-
-		document.addEventListener("mousemove", mouseMoveHandler, false);
-		document.addEventListener("mousedown", mouseDownHandler, false);
-		document.addEventListener("mouseup", mouseUpHandler, false);
-
-		draw();
-	</script>
+	<script type="text/javascript" src="data/HARDDATA.js"></script>
+	<script type="text/javascript" src="src/code.js"></script>
 </body>
 </html>
