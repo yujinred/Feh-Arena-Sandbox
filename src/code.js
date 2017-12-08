@@ -30,6 +30,16 @@ function createDefaultUnit() {
 	}
 }
 
+const IMAGES = [
+	'data/maps/Z0016.png',
+	'data/maps/Z0017.png',
+	'data/maps/Z0018.png',
+	'data/maps/Z0019.png',
+	'data/maps/Z0020.png'
+	];
+
+var imgList = [];
+
 var heroPickerDropDown = document.getElementsByClassName("hero-picker");
 
 for (var i = 0; i < heroPickerDropDown.length; ++i) {
@@ -42,16 +52,19 @@ for (var i = 0; i < heroPickerDropDown.length; ++i) {
 	});
 }
 
+// testing variable
+var mapValue = 0;
+
 function draw() {
-	var img = new Image();
-	img.onload = function() {
+	// var img = new Image();
+	// img.onload = function() {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		ctx.drawImage(img, 0, 0, canvas.width, canvas.height);
+		ctx.drawImage(imgList[mapValue], 0, 0, canvas.width, canvas.height);
 		
 		drawpeon();
 		handleMouseInteraction();
-	};
-	img.src = 'data/maps/Z0018.png';
+	// };
+	// img.src = 'data/maps/Z0018.png';
 	requestAnimationFrame(draw);
 
 }
@@ -110,6 +123,7 @@ function mouseDownHandler(e) {
 
 function mouseUpHandler(e) {
 	mouse.mouseDown = false;
+	mapValue = mapValue >= 4? 0 : mapValue + 1;
 	if (peon.clicked)
 	{
 		peon.clicked = false;
@@ -122,4 +136,13 @@ document.addEventListener("mousemove", mouseMoveHandler, false);
 document.addEventListener("mousedown", mouseDownHandler, false);
 document.addEventListener("mouseup", mouseUpHandler, false);
 
-draw();
+function init() {
+
+	for (var i =0; i < IMAGES.length; ++i) {
+		var img = new Image();
+		img.src = IMAGES[i];
+		imgList.push(img);
+	}
+
+	draw();
+}
