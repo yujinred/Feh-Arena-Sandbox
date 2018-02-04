@@ -1,5 +1,8 @@
-var canvas = document.getElementById('game');
-var ctx = canvas.getContext('2d');
+const IMAGE_PATH = 'data/maps/';
+const CHARACTER_PATH = 'data/characters/';
+
+const canvas = document.getElementById('game');
+const ctx = canvas.getContext('2d');
 var canvasBoundingRect = canvas.getBoundingClientRect();
 var rectSize = 100;
 
@@ -15,13 +18,6 @@ var peon = {
 	clicked: false
 };
 
-var heroes = [];
-var villains = [];
-
-var unit = {
-
-}
-
 function createDefaultUnit() {
 	return {
 		x: 0,
@@ -30,21 +26,16 @@ function createDefaultUnit() {
 	}
 }
 
-const IMAGES = [
-	'data/maps/Z0016.png',
-	'data/maps/Z0017.png',
-	'data/maps/Z0018.png',
-	'data/maps/Z0019.png',
-	'data/maps/Z0020.png'
-	];
 
-var imgList = [];
+
+var mapAssets = [];
+var characterAssets = [];
 
 var heroPickerDropDown = document.getElementsByClassName("hero-picker");
 
 for (var i = 0; i < heroPickerDropDown.length; ++i) {
 	var dropdown = heroPickerDropDown[i];
-	heroList.forEach(hero => {
+	characterList.forEach(hero => {
 		var el = document.createElement("option");
 		el.textContent = hero;
 		el.value = hero;
@@ -59,7 +50,8 @@ function draw() {
 	// var img = new Image();
 	// img.onload = function() {
 		ctx.clearRect(0, 0, canvas.width, canvas.height);
-		ctx.drawImage(imgList[mapValue], 0, 0, canvas.width, canvas.height);
+		ctx.drawImage(mapAssets[mapValue].img, 0, 0, canvas.width, canvas.height);
+
 		
 		drawpeon();
 		handleMouseInteraction();
@@ -81,7 +73,7 @@ function drawGrid() {
 function drawpeon() {
 	ctx.strokeStyle = 'black';
 	ctx.lineWidth = 4;
-	ctx.strokeRect(peon.x * 100, peon.y * 100, rectSize, rectSize);
+	ctx.drawImage(characterAssets[mapValue].img, peon.x * 100, peon.y * 100, rectSize, rectSize);
 	ctx.lineWidth = 1;
 }
 
@@ -138,11 +130,30 @@ document.addEventListener("mouseup", mouseUpHandler, false);
 
 function init() {
 
-	for (var i =0; i < IMAGES.length; ++i) {
-		var img = new Image();
-		img.src = IMAGES[i];
-		imgList.push(img);
-	}
-
+	prepareMapData();
+	prepareCharacterData();
 	draw();
+}
+
+function createImageUrl(path, imageName, extension) {
+	return path + imageName + extension;
+}
+
+function prepareMapData() {
+	prepareAssets(IMAGE_PATH, mapList, mapAssets);
+}
+
+function prepareCharacterData() {
+	prepareAssets(CHARACTER_PATH, characterList, characterAssets);
+}
+
+function prepareAssets(assetPath, assetName, assetsList) {
+	for (var i =0; i < assetName.length; ++i) {
+		var img = new Image();
+		img.src = createImageUrl(assetPath, assetName[i], '.png');
+		assetsList.push({
+			name: assetName[i],
+			img: img
+		});
+	}
 }
